@@ -70,7 +70,6 @@ fn main() -> Result<()> {
 
     let os = select_os();
 
-    link_cpp_stdlib(&os);
     link_lib_omp(&os);
 
     // Generate bindings from a header file and place them in a bindings.rs file
@@ -115,14 +114,6 @@ fn main() -> Result<()> {
     bindings
         .write_to_file(&bindgen_file)
         .map_err(|_| BuildError::BindgenWrite(bindgen_file.to_string_lossy().to_string()).into())
-}
-
-fn link_cpp_stdlib(os: &OS) {
-    // The name of the c++ stdlib depends on the OS
-    match os {
-        OS::Linux => println!("cargo:rustc-link-lib=stdc++"),
-        OS::Apple => println!("cargo:rustc-link-lib=c++"),
-    }
 }
 
 fn link_lib_omp(os: &OS) {

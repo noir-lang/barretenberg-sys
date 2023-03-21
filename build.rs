@@ -144,9 +144,7 @@ fn link_lib_omp(os: &OS) {
                 search_paths.extend(env::split_paths(line));
             }
             for path in search_paths {
-                if path.join("omp").exists() {
-                    println!("cargo:rustc-link-search={}", path.display());
-                }
+                println!("cargo:rustc-link-search={}", path.display());
             }
         }
         OS::Apple => {

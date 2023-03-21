@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   nix:
-    name: Nix build & test
+    name: Nix build & test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -43,7 +43,7 @@ jobs:
           nix build -L .#checks.${{ matrix.target }}.cargo-test
 
   native:
-    name: Native build & test
+    name: Native build & test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

@@ -1,0 +1,95 @@
+name: Test
+
+on: [push, pull_request]
+
+# This will cancel previous runs when a branch or PR is updated
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  nix:
+    name: Nix build & test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-linux
+          - os: macos-latest
+            target: x86_64-darwin
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: cachix/install-nix-action@v20
+        with:
+          nix_path: nixpkgs=channel:nixos-22.11
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cargo build
+        run: |
+          nix build -L .#checks.${{ matrix.target }}.cargo-check
+
+      - name: Cargo clippy
+        run: |
+          nix build -L .#checks.${{ matrix.target }}.cargo-clippy
+
+      - name: Cargo test
+        run: |
+          nix build -L .#checks.${{ matrix.target }}.cargo-test
+
+  native:
+    name: Native build & test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+          - os: macos-latest
+
+    steps:
+      - name: Checkout barretenberg
+        uses: actions/checkout@v3
+        with:
+          repository: AztecProtocol/barretenberg
+          path: barretenberg
+          # TODO: We should decide on a tag or commit
+          # ref: foobarbaz
+
+      - name: Setup Linux environment
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt update
+          sudo apt install libomp-dev cmake ninja-build
+          echo "PRESET=default" >> $GITHUB_ENV
+
+      - name: Setup Darwin environment
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install llvm libomp cmake ninja
+          echo "BREW_PREFIX=$(brew --prefix)" >> $GITHUB_ENV
+          echo "PRESET=homebrew" >> $GITHUB_ENV
+
+      - name: Build and install barretenberg
+        working-directory: barretenberg/cpp
+        run: |
+          cmake --preset ${{ env.PRESET }}
+          cmake --build --preset ${{ env.PRESET }}
+          sudo cmake --install build
+
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Setup toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.66.0
+
+      - name: Run cargo test
+        run: |
+          cargo test --locked -- --test-threads=1

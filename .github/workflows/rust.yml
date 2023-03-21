@@ -81,3 +81,15 @@ jobs:
           cmake --preset ${{ env.PRESET }}
           cmake --build --preset ${{ env.PRESET }}
           sudo cmake --install build
+
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Setup toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.66.0
+
+      - name: Run cargo test
+        run: |
+          cargo test --locked -- --test-threads=1

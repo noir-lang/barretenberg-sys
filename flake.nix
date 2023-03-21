@@ -53,7 +53,8 @@
         pname = "barretenberg-sys";
         version = "0.1.0";
 
-        # As per https://discourse.nixos.org/t/gcc11stdenv-and-clang/17734/7
+        # As per https://discourse.nixos.org/t/gcc11stdenv-and-clang/17734/7 since it seems that aarch64-linux uses
+        # gcc9 instead of gcc11 for the C++ stdlib, while all other targets we support provide the correct libstdc++
         stdenv = with pkgs;
           if (stdenv.targetPlatform.isGnu && stdenv.targetPlatform.isAarch64) then
             overrideCC llvmPackages.stdenv (llvmPackages.clang.override { gccForLibs = gcc11.cc; })
@@ -83,7 +84,7 @@
       # Build *just* the cargo dependencies, so we can reuse all of that work between runs
       cargoArtifacts = craneLib.buildDepsOnly commonArgs;
 
-      barretenberg-backend = craneLib.buildPackage (commonArgs // {
+      barretenberg-sys = craneLib.buildPackage (commonArgs // {
         inherit cargoArtifacts;
       });
     in
@@ -112,7 +113,7 @@
         });
       };
 
-      packages.default = barretenberg-backend;
+      packages.default = barretenberg-sys;
 
       # llvmPackages should be aligned to selection from libbarretenberg
       # better if we get rid of llvm targets and override them from input

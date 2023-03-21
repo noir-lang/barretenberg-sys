@@ -1,4 +1,4 @@
-name: Rust
+name: Test
 
 on: [push, pull_request]
 
@@ -41,3 +41,28 @@ jobs:
       - name: Cargo test
         run: |
           nix build -L .#checks.${{ matrix.target }}.cargo-test
+
+  native:
+    name: Native build & test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+          - os: macos-latest
+
+    steps:
+      - name: Checkout barretenberg
+        uses: actions/checkout@v3
+        with:
+          repository: AztecProtocol/barretenberg
+          path: barretenberg
+          # TODO: We should decide on a tag or commit
+          # ref: foobarbaz
+
+      - name: Build and install barretenberg
+        working-directory: barretenberg/cpp
+        run: |
+          ./bootstrap.sh
+          cmake --install build

@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   nix:
-    name: Nix build & test - ${{ matrix.os }}
+    name: Nix build & test
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -66,14 +66,18 @@ jobs:
         run: |
           sudo apt update
           sudo apt install libomp-dev cmake ninja-build
+          echo "PRESET=default" >> $GITHUB_ENV
 
       - name: Setup Darwin environment
         if: matrix.os == 'macos-latest'
         run: |
           brew install llvm libomp cmake ninja
+          echo "BREW_PREFIX=$(brew --prefix)" >> $GITHUB_ENV
+          echo "PRESET=homebrew" >> $GITHUB_ENV
 
       - name: Build and install barretenberg
         working-directory: barretenberg/cpp
         run: |
-          ./bootstrap.sh
+          cmake --preset ${{ env.PRESET }}
+          cmake --build --preset ${{ env.PRESET }}
           cmake --install build

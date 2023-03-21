@@ -61,6 +61,17 @@ jobs:
           # TODO: We should decide on a tag or commit
           # ref: foobarbaz
 
+      - name: Setup Linux environment
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt update
+          sudo apt install libomp-dev cmake ninja-build
+
+      - name: Setup Darwin environment
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install llvm libomp cmake ninja
+
       - name: Build and install barretenberg
         working-directory: barretenberg/cpp
         run: |

@@ -120,31 +120,10 @@ fn link_lib_omp(os: &OS) {
     // We are using clang, so we need to tell the linker where to search for lomp
     match os {
         OS::Linux => {
-            let mut search_paths = Vec::new();
-
-            let comp = cc::Build::new()
-                .flag("-v")
-                .flag("-print-search-dirs")
-                .get_compiler();
-            let mut cmd = comp.to_command();
-            let (out, _err) = match cmd.output() {
-                Ok(out) => (
-                    String::from_utf8(out.stdout).unwrap(),
-                    String::from_utf8(out.stderr).unwrap(),
-                ),
-                Err(_err) => {
-                    unimplemented!("Bad C compiler")
+            if let Some(search_paths) = find_linux_search_paths() {
+                for path in search_paths {
+                    println!("cargo:rustc-link-search={}", path.display());
                 }
-            };
-
-            for line in out
-                .split('\n')
-                .filter_map(|l| l.strip_prefix("libraries: ="))
-            {
-                search_paths.extend(env::split_paths(line));
-            }
-            for path in search_paths {
-                println!("cargo:rustc-link-search={}", path.display());
             }
         }
         OS::Apple => {
@@ -154,6 +133,32 @@ fn link_lib_omp(os: &OS) {
         }
     }
     println!("cargo:rustc-link-lib=omp");
+}
+
+fn find_linux_search_paths() -> Option<Vec<PathBuf>> {
+    let comp = cc::Build::new()
+        .flag("-v")
+        .flag("-print-search-dirs")
+        .get_compiler();
+    let mut cmd = comp.to_command();
+    match cmd.output() {
+        Ok(out) => match String::from_utf8(out.stdout) {
+            Ok(stdout) => {
+                let mut search_paths = Vec::new();
+                for line in stdout
+                    .trim()
+                    .to_string()
+                    .split('\n')
+                    .filter_map(|l| l.strip_prefix("libraries: ="))
+                {
+                    search_paths.extend(env::split_paths(line));
+                }
+                Some(search_paths)
+            }
+            Err(_) => None,
+        },
+        Err(_) => None,
+    }
 }
 
 fn find_brew_prefix() -> Option<String> {

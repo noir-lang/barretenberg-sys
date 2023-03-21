@@ -60,7 +60,7 @@
           else
             llvmPackages.stdenv;
 
-        src = ./.;
+        src = craneLib.cleanCargoSource ./.;
 
         doCheck = false;
 

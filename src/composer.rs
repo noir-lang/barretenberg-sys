@@ -19,6 +19,12 @@ pub unsafe fn get_exact_circuit_size(cs_prt: *const u8) -> u32 {
 
 /// # Safety
 /// cs_prt must point to a valid constraints system structure of type standard_format
+pub unsafe fn get_total_circuit_size(cs_prt: *const u8) -> u32 {
+    c_get_total_circuit_size(cs_prt)
+}
+
+/// # Safety
+/// cs_prt must point to a valid constraints system structure of type standard_format
 pub unsafe fn init_proving_key(cs_ptr: &[u8], pk_data_ptr: *mut *mut u8) -> usize {
     let cs_ptr = cs_ptr.as_ptr();
     c_init_proving_key(cs_ptr, pk_data_ptr as *const *mut u8 as *mut *const u8)

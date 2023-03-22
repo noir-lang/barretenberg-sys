@@ -88,6 +88,7 @@ fn main() -> Result<()> {
         )
         .allowlist_function("blake2s_to_field")
         .allowlist_function("c_get_exact_circuit_size")
+        .allowlist_function("c_get_total_circuit_size")
         .allowlist_function("c_init_proving_key")
         .allowlist_function("c_init_verification_key")
         .allowlist_function("new_proof")

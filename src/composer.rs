@@ -2,16 +2,10 @@ use crate::*;
 
 /// # Safety
 /// pippenger must point to a valid Pippenger object
-pub unsafe fn get_solidity_verifier(
-    g2_ptr: &[u8],
-    vk_ptr: &[u8],
-    cs_ptr: &[u8],
-    output_buf: *mut *mut u8,
-) -> u32 {
+pub unsafe fn get_solidity_verifier(g2_ptr: &[u8], vk_ptr: &[u8], output_buf: *mut *mut u8) -> u32 {
     acir_proofs_get_solidity_verifier(
         g2_ptr.as_ptr() as *const u8,
         vk_ptr.as_ptr() as *const u8,
-        cs_ptr.as_ptr() as *const u8,
         output_buf,
     )
 }

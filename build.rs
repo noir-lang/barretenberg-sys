@@ -79,7 +79,7 @@ fn main() -> Result<()> {
         .header_contents(
             "wrapper.hpp",
             r#"
-            #include <barretenberg/dsl/proofs/c_bind.hpp>
+            #include <barretenberg/dsl/acir_proofs/c_bind.hpp>
             #include <barretenberg/crypto/blake2s/c_bind.hpp>
             #include <barretenberg/crypto/pedersen/c_bind.hpp>
             #include <barretenberg/crypto/schnorr/c_bind.hpp>
@@ -87,12 +87,13 @@ fn main() -> Result<()> {
             "#,
         )
         .allowlist_function("blake2s_to_field")
-        .allowlist_function("c_get_exact_circuit_size")
-        .allowlist_function("c_get_total_circuit_size")
-        .allowlist_function("c_init_proving_key")
-        .allowlist_function("c_init_verification_key")
-        .allowlist_function("new_proof")
-        .allowlist_function("verify_proof")
+        .allowlist_function("acir_proofs_get_solidity_verifier")
+        .allowlist_function("acir_proofs_get_exact_circuit_size")
+        .allowlist_function("acir_proofs_get_total_circuit_size")
+        .allowlist_function("acir_proofs_init_proving_key")
+        .allowlist_function("acir_proofs_init_verification_key")
+        .allowlist_function("acir_proofs_new_proof")
+        .allowlist_function("acir_proofs_verify_proof")
         .allowlist_function("pedersen__compress_fields")
         .allowlist_function("pedersen__compress")
         .allowlist_function("pedersen__commit")

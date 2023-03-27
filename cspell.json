@@ -3,5 +3,10 @@
     "ignorePaths": [
         "target"
     ],
-    "words": []
+    "words": [
+        "bindgen",
+        "Bindgen",
+        "thiserror",
+        "Barretenberg"
+    ]
 }

@@ -4,6 +4,8 @@
         "target"
     ],
     "words": [
+        "libomp",
+        "pedersen",
         "bindgen",
         "Bindgen",
         "thiserror",

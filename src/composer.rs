@@ -1,7 +1,6 @@
 use crate::*;
 
 /// # Safety
-/// pippenger must point to a valid Pippenger object
 pub unsafe fn get_solidity_verifier(
     g2_ptr: &[u8],
     vk_ptr: &[u8],

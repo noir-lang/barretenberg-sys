@@ -74,7 +74,7 @@ jobs:
       - name: Build and install barretenberg
         working-directory: barretenberg/cpp
         run: |
-          cmake --preset ${{ env.PRESET }}
+          cmake --preset ${{ env.PRESET }} -DTESTING=OFF -DBENCHMARKS=OFF -DCMAKE_BUILD_TYPE=RelWithAssert
           cmake --build --preset ${{ env.PRESET }}
           sudo cmake --install build
 

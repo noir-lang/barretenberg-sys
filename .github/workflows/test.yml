@@ -54,8 +54,7 @@ jobs:
         with:
           repository: AztecProtocol/barretenberg
           path: barretenberg
-          # TODO: We should decide on a tag or commit
-          ref: mv/ultra-range-dbg
+          ref: 4a069923f4a869f8c2315e6d3f738db6e66dcdfa
 
       - name: Setup Linux environment
         if: matrix.os == 'ubuntu-latest'

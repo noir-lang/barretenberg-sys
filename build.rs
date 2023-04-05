@@ -138,6 +138,7 @@ fn link_lib_omp(os: &OS) {
 }
 
 fn find_linux_search_paths() -> Option<Vec<PathBuf>> {
+    // Based on https://gitlab.com/kornelski/openmp-rs/-/blob/a922ab9073a95fb5161a38f13f5c12d37d1f1811/build.rs#L39-78
     let comp = cc::Build::new()
         .flag("-v")
         .flag("-print-search-dirs")

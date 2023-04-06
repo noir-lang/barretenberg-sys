@@ -42,4 +42,4 @@ pub fn pedersen() {
 
 ## Nix
 
-We provide a [Nix Flake](./flake.nix) that shows you how to configure an environment if you are build your Rust code inside Nix.
+We provide a [Nix Flake](./flake.nix) that shows you how to configure an environment if you're building your Rust code inside Nix.

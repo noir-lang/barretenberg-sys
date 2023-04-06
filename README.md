@@ -18,7 +18,7 @@ To leverage the `barretenberg-sys` crate, you'll need to install some global pac
 
     Linker provided by Clang, but might need to be installed via `apt install lld`.
 
-4. `barretenberg`
+4. `barretenberg` (preferably at commit `486d73842b4b7d6aa84fa12d7462fe52e892d416`)
 
     Needs to be built and installed following the instructions [in the README](https://github.com/AztecProtocol/barretenberg#getting-started). Note that barretenberg has its own [dependencies](https://github.com/AztecProtocol/barretenberg#dependencies) that will need to be installed, such as `cmake` and `ninja`.
 

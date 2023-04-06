@@ -15,7 +15,7 @@ mod tests {
     use hex;
 
     #[test]
-    fn black2s() {
+    fn blake2s() {
         struct Test<'a> {
             input: Vec<u8>,
             expected_hex: &'a str,

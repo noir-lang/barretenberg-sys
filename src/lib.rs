@@ -28,7 +28,7 @@ mod tests {
         f_one[31] = 1;
         let got = pedersen::compress_native(&f_zero, &f_one);
         assert_eq!(
-            "229fb88be21cec523e9223a21324f2e305aea8bff9cdbcb3d0c6bba384666ea1",
+            "11831f49876c313f2a9ec6d8d521c7ce0b6311c852117e340bfe27fd1ac096ef",
             hex::encode(got)
         );
     }

@@ -30,10 +30,6 @@ jobs:
           nix_path: nixpkgs=channel:nixos-22.11
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cargo build
-        run: |
-          nix build -L .#checks.${{ matrix.target }}.cargo-check
-
       - name: Cargo clippy
         run: |
           nix build -L .#checks.${{ matrix.target }}.cargo-clippy
@@ -58,8 +54,7 @@ jobs:
         with:
           repository: AztecProtocol/barretenberg
           path: barretenberg
-          # TODO: We should decide on a tag or commit
-          # ref: foobarbaz
+          ref: 486d73842b4b7d6aa84fa12d7462fe52e892d416
 
       - name: Setup Linux environment
         if: matrix.os == 'ubuntu-latest'
@@ -78,7 +73,7 @@ jobs:
       - name: Build and install barretenberg
         working-directory: barretenberg/cpp
         run: |
-          cmake --preset ${{ env.PRESET }}
+          cmake --preset ${{ env.PRESET }} -DTESTING=OFF -DBENCHMARKS=OFF -DCMAKE_BUILD_TYPE=RelWithAssert
           cmake --build --preset ${{ env.PRESET }}
           sudo cmake --install build
 

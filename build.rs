@@ -79,7 +79,7 @@ fn main() -> Result<()> {
         .header_contents(
             "wrapper.hpp",
             r#"
-            #include <barretenberg/dsl/turbo_proofs/c_bind.hpp>
+            #include <barretenberg/dsl/acir_proofs/c_bind.hpp>
             #include <barretenberg/crypto/blake2s/c_bind.hpp>
             #include <barretenberg/crypto/pedersen/c_bind.hpp>
             #include <barretenberg/crypto/schnorr/c_bind.hpp>
@@ -87,14 +87,16 @@ fn main() -> Result<()> {
             "#,
         )
         .allowlist_function("blake2s_to_field")
-        .allowlist_function("turbo_get_exact_circuit_size")
-        .allowlist_function("turbo_init_proving_key")
-        .allowlist_function("turbo_init_verification_key")
-        .allowlist_function("turbo_new_proof")
-        .allowlist_function("turbo_verify_proof")
-        .allowlist_function("pedersen__compress_fields")
-        .allowlist_function("pedersen__compress")
-        .allowlist_function("pedersen__commit")
+        .allowlist_function("acir_proofs_get_solidity_verifier")
+        .allowlist_function("acir_proofs_get_exact_circuit_size")
+        .allowlist_function("acir_proofs_get_total_circuit_size")
+        .allowlist_function("acir_proofs_init_proving_key")
+        .allowlist_function("acir_proofs_init_verification_key")
+        .allowlist_function("acir_proofs_new_proof")
+        .allowlist_function("acir_proofs_verify_proof")
+        .allowlist_function("pedersen_plookup_compress_fields")
+        .allowlist_function("pedersen_plookup_compress")
+        .allowlist_function("pedersen_plookup_commit")
         .allowlist_function("new_pippenger")
         .allowlist_function("compute_public_key")
         .allowlist_function("construct_signature")
@@ -136,6 +138,7 @@ fn link_lib_omp(os: &OS) {
 }
 
 fn find_linux_search_paths() -> Option<Vec<PathBuf>> {
+    // Based on https://gitlab.com/kornelski/openmp-rs/-/blob/a922ab9073a95fb5161a38f13f5c12d37d1f1811/build.rs#L39-78
     let comp = cc::Build::new()
         .flag("-v")
         .flag("-print-search-dirs")

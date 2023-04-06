@@ -9,7 +9,7 @@ pub fn compress_native(left: &[u8; 32], right: &[u8; 32]) -> [u8; 32] {
     let mut result = [0_u8; 32];
 
     unsafe {
-        pedersen__compress_fields(
+        pedersen_plookup_compress_fields(
             left.as_ptr() as *const u8,
             right.as_ptr() as *const u8,
             result.as_mut_ptr(),
@@ -30,7 +30,7 @@ pub fn compress_many(inputs: &[[u8; 32]]) -> [u8; 32] {
 
     let mut result = [0_u8; 32];
     unsafe {
-        pedersen__compress(buffer.as_ptr() as *const u8, result.as_mut_ptr());
+        pedersen_plookup_compress(buffer.as_ptr() as *const u8, result.as_mut_ptr());
     }
     result
 }
@@ -45,7 +45,7 @@ pub fn encrypt(inputs_buffer: &[[u8; 32]]) -> ([u8; 32], [u8; 32]) {
     }
 
     unsafe {
-        pedersen__commit(buffer.as_ptr() as *const u8, result.as_mut_ptr());
+        pedersen_plookup_commit(buffer.as_ptr() as *const u8, result.as_mut_ptr());
     }
     let s: [u8; 32] = (result[0..32]).try_into().unwrap();
     let e: [u8; 32] = (result[32..64]).try_into().unwrap();
@@ -72,17 +72,17 @@ mod tests {
             Test {
                 input_left: f_zero,
                 input_right: f_one,
-                expected_hex: "229fb88be21cec523e9223a21324f2e305aea8bff9cdbcb3d0c6bba384666ea1",
+                expected_hex: "11831f49876c313f2a9ec6d8d521c7ce0b6311c852117e340bfe27fd1ac096ef",
             },
             Test {
                 input_left: f_one,
                 input_right: f_one,
-                expected_hex: "26425ddf29b4af6ee91008e8dbcbee975653170eee849efd75abf8301dee114e",
+                expected_hex: "1044a769e185fcdf077c8289a6bf87c5c77ff9561cab69d39fadd90a07ee4af4",
             },
             Test {
                 input_left: f_one,
                 input_right: f_zero,
-                expected_hex: "08f3cb4f0fdd7a9ef130c6d4590af6750b1475161020a198a56eced45078ccf2",
+                expected_hex: "17d213c8fe83e89a2f3190933d437a3e231124e0383e6dc6a7b6e6358833e427",
             },
         ];
 
@@ -103,8 +103,8 @@ mod tests {
         let inputs: Vec<[u8; 32]> = vec![f_zero, f_one];
 
         let (x, y) = encrypt(&inputs);
-        let expected_x = "229fb88be21cec523e9223a21324f2e305aea8bff9cdbcb3d0c6bba384666ea1";
-        let expected_y = "296b4b4605e586a91caa3202baad557628a8c56d0a1d6dff1a7ca35aed3029d5";
+        let expected_x = "11831f49876c313f2a9ec6d8d521c7ce0b6311c852117e340bfe27fd1ac096ef";
+        let expected_y = "0ecf9d98be4597a88c46a7e0fa8836b57a7dcb41ee30f8d8787b11cc259c83fa";
         assert_eq!(expected_x, hex::encode(x));
         assert_eq!(expected_y, hex::encode(y));
     }

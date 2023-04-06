@@ -3,5 +3,12 @@
     "ignorePaths": [
         "target"
     ],
-    "words": []
+    "words": [
+        "libomp",
+        "pedersen",
+        "bindgen",
+        "Bindgen",
+        "thiserror",
+        "Barretenberg"
+    ]
 }

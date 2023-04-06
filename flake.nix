@@ -52,7 +52,7 @@
       commonArgs = {
         pname = "barretenberg-sys";
         # x-release-please-start-version
-        version = "0.0.0";
+        version = "0.1.0";
         # x-release-please-end
 
         # As per https://discourse.nixos.org/t/gcc11stdenv-and-clang/17734/7 since it seems that aarch64-linux uses

@@ -1,6 +1,6 @@
 [package]
 name = "barretenberg-sys"
-version = "0.0.0"
+version = "0.1.0"
 description = "FFI bindings to Barretenberg"
 authors = ["The Noir Team <team@noir-lang.org>"]
 repository = "https://github.com/noir-lang/barretenberg-sys/"

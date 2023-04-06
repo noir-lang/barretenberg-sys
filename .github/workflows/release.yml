@@ -21,6 +21,8 @@ jobs:
           bump-minor-pre-major: true
           bump-patch-for-minor-pre-major: true
           pull-request-title-pattern: "chore: Release ${version}"
+          extra-files: |
+            flake.nix
 
   publish:
     name: Publish crates

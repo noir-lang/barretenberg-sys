@@ -34,7 +34,7 @@ dependencies = [
 
 [[package]]
 name = "barretenberg-sys"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "bindgen",
  "cc",

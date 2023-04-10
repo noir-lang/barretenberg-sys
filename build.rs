@@ -81,7 +81,7 @@ fn main() -> Result<()> {
             r#"
             #include <barretenberg/dsl/acir_proofs/c_bind.hpp>
             #include <barretenberg/crypto/blake2s/c_bind.hpp>
-            #include <barretenberg/crypto/pedersen/c_bind.hpp>
+            #include <barretenberg/crypto/pedersen_commitment/c_bind.hpp>
             #include <barretenberg/crypto/schnorr/c_bind.hpp>
             #include <barretenberg/ecc/curves/bn254/scalar_multiplication/c_bind.hpp>
             "#,

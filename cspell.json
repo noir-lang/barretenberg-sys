@@ -9,6 +9,10 @@
         "bindgen",
         "Bindgen",
         "thiserror",
-        "Barretenberg"
+        "Barretenberg",
+        "consts",
+        "acir",
+        "schnorr",
+        "plookup"
     ]
 }

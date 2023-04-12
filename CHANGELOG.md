@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.1](https://github.com/noir-lang/barretenberg-sys/compare/v0.1.0...v0.1.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* Barretenberg renamed pedersen to pedersen_commitment ([#12](https://github.com/noir-lang/barretenberg-sys/issues/12)) ([8a65ec3](https://github.com/noir-lang/barretenberg-sys/commit/8a65ec373256c83205a572fc8b91ae78dfba7454))
+* **ci:** Avoid building the project when publishing ([#8](https://github.com/noir-lang/barretenberg-sys/issues/8)) ([6bf1b67](https://github.com/noir-lang/barretenberg-sys/commit/6bf1b67cdb638ef9078dd557e8bdf208d36187e1))
+* Disable ASM and ADX in Nix & CI ([#11](https://github.com/noir-lang/barretenberg-sys/issues/11)) ([2366e10](https://github.com/noir-lang/barretenberg-sys/commit/2366e1093f1e7f8beee60e14524bebc07b883d70))
+
 ## 0.1.0 (2023-04-06)
 
 

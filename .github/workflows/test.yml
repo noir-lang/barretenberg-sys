@@ -54,7 +54,7 @@ jobs:
         with:
           repository: AztecProtocol/barretenberg
           path: barretenberg
-          ref: 3bc724d2163d29041bfa29a1e49625bab77289a2
+          ref: 500daf1ceb03771d2c01eaf1a86139a7ac1d814f
 
       - name: Setup Linux environment
         if: matrix.os == 'ubuntu-latest'

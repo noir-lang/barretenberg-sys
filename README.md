@@ -40,6 +40,45 @@ pub fn pedersen() {
 }
 ```
 
-## Nix
+## Working on this project
 
-We provide a [Nix Flake](./flake.nix) that shows you how to configure an environment if you're building your Rust code inside Nix.
+Due to the large number of native dependencies, this project uses [Nix](https://nixos.org/) and [direnv](https://direnv.net/) to streamline the development experience.
+
+### Setting up your environment
+
+For the best experience, please follow these instructions to setup your environment:
+1. Install Nix following [their guide](https://nixos.org/download.html) for your operating system
+2. Create the file `~/.config/nix/nix.conf` with the contents:
+```ini
+experimental-features = nix-command
+extra-experimental-features = flakes
+```
+3. Install direnv into your Nix profile by running:
+```sh
+nix profile install nixpkgs#direnv
+```
+4. Add direnv to your shell following [their guide](https://direnv.net/docs/hook.html)
+5. Restart your shell
+
+### Shell & editor experience
+
+Now that your environment is set up, you can get to work on the project.
+
+1. Clone the repository, such as:
+```sh
+git clone git@github.com:noir-lang/barretenberg-sys
+```
+2. Navigate to the directory:
+```sh
+cd barretenberg-sys
+```
+3. You should see a __direnv error__ because projects aren't allowed by default. Make sure you trust our `.envrc` file, then you need to run:
+```sh
+direnv allow
+```
+4. Now, wait awhile for all the native dependencies to be built. This will take some time and direnv will warn you that it is taking a long time, but we just need to let it run.
+5. Once you are presented with your prompt again, you can start your editor within the project directory (we recommend [VSCode](https://code.visualstudio.com/)):
+```sh
+code .
+```
+6. (Recommended) When launching VSCode for the first time, you should be prompted to install our recommended plugins. We highly recommend installing these for the best development experience.

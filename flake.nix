@@ -156,6 +156,8 @@
           which
           starship
           git
+          nil
+          nixpkgs-fmt
         ];
 
         shellHook = ''

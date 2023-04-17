@@ -18,6 +18,8 @@
         "envrc",
         "nixpkgs",
         "clippy",
-        "subshell"
+        "subshell",
+        "phated",
+        "mybranch"
     ]
 }

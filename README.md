@@ -91,6 +91,25 @@ To build the project, run `nix build .` (or `nix build . -L` for verbose output)
 
 To run clippy and all tests in the project, run `nix flake check` (or `nix flake check -L` for verbose output).
 
+### Building against a different local/remote version of Barretenberg
+
+If you are working on this crate, it is likely that you want to incorporate changes from some other version of Barretenberg
+instead of the version this project is pinned against.
+
+To reference a different version of Barretenberg, you can add the `--override-input` flag. For example:
+
+```sh
+nix build . --override-input barretenberg /home/phated/barretenberg
+```
+
+```sh
+nix flake check --override-input barretenberg /home/phated/barretenberg
+```
+
+```sh
+nix flake check --override-input barretenberg github:phated/barretenberg/mybranch
+```
+
 ### Without direnv
 
 If you have hesitations with using `direnv`, you can launch a subshell with `nix develop` and then launch your editor

@@ -82,3 +82,19 @@ direnv allow
 code .
 ```
 6. (Recommended) When launching VSCode for the first time, you should be prompted to install our recommended plugins. We highly recommend installing these for the best development experience.
+
+### Building and testing
+
+Building and testing the project is done through Nix commands.
+
+To build the project, run `nix build .` (or `nix build . -L` for verbose output).
+
+To run clippy and all tests in the project, run `nix flake check` (or `nix flake check -L` for verbose output).
+
+### Without direnv
+
+If you have hesitations with using `direnv`, you can launch a subshell with `nix develop` and then launch your editor
+from within the subshell.
+
+__Note:__ If you aren't using direnv nor launch your editor within the subshell, your editor won't have the correct environment
+variables to find system dependencies and probably won't be able to build the project.

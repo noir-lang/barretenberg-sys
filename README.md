@@ -4,7 +4,11 @@ FFI bindings to Barretenberg
 
 ## Dependencies
 
-To leverage the `barretenberg-sys` crate, you'll need to install some global packages:
+This is a [`*-sys` package](https://doc.rust-lang.org/cargo/reference/build-scripts.html#-sys-packages), which means it will
+probe the system for Barretenberg, link to it, and provide higher-level bindings that can be consumed by other Rust projects.
+
+We provide a comprehensive [Nix Flake](./flake.nix) for consuming Barretenberg within Rust projects, but if you instead want
+to install everything globally, you'll need:
 
 1. `libomp`
 
@@ -85,35 +89,37 @@ code .
 
 ### Building and testing
 
-Building and testing the project is done through Nix commands.
+Assuming you are using `direnv` to populate your environment, building and testing the project can be done
+with the typical `cargo build`, `cargo test`, and `cargo clippy` commands. You'll notice that the `cargo` version matches the
+version we specify in [flake.nix](./flake.nix), which is 1.66.0 at the time of this writing.
 
-To build the project, run `nix build .` (or `nix build . -L` for verbose output).
-
-To run clippy and all tests in the project, run `nix flake check` (or `nix flake check -L` for verbose output).
+If you want to build the entire project in an isolated sandbox, you can use Nix commands:
+1. `nix build .` (or `nix build . -L` for verbose output) to build the project in a Nix sandbox
+2. `nix flake check` (or `nix flake check -L` for verbose output) to run clippy and tests in a Nix sandbox
 
 ### Building against a different local/remote version of Barretenberg
 
 If you are working on this crate, it is likely that you want to incorporate changes from some other version of Barretenberg
 instead of the version this project is pinned against.
 
-To reference a different version of Barretenberg, you can add the `--override-input` flag. For example:
+To reference a different version of Barretenberg, you want to replace the lockfile version with your version. This can be done
+by running:
 
 ```sh
-nix build . --override-input barretenberg /home/phated/barretenberg
+nix flake lock --override-input barretenberg /absolute/path/to/your/barretenberg
 ```
 
-```sh
-nix flake check --override-input barretenberg /home/phated/barretenberg
-```
+You can also point at a fork and/or branch on GitHub using:
 
 ```sh
-nix flake check --override-input barretenberg github:phated/barretenberg/mybranch
+nix flake lock --override-input barretenberg github:phated/barretenberg/mybranch
 ```
+
+__Note:__ You don't want to commit the updated lockfile, as it will fail in CI!
 
 ### Without direnv
 
 If you have hesitations with using `direnv`, you can launch a subshell with `nix develop` and then launch your editor
-from within the subshell.
+from within the subshell. However, if VSCode was already launched in the project directory, the environment won't be updated.
 
-__Note:__ If you aren't using direnv nor launch your editor within the subshell, your editor won't have the correct environment
-variables to find system dependencies and probably won't be able to build the project.
+__Advanced:__ If you aren't using `direnv` nor launching your editor within the subshell, you can try to install barretenberg and other global dependencies the package needs. This is an advanced workflow and likely won't receive support!

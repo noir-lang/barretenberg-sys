@@ -153,8 +153,6 @@
       devShells.default = pkgs.mkShell (environment // {
         inputsFrom = builtins.attrValues checks;
 
-        LIBBARRETENBERG = pkgs.barretenberg;
-
         nativeBuildInputs = with pkgs; [
           which
           starship
@@ -166,7 +164,7 @@
 
         shellHook = ''
           eval "$(starship init bash)"
-          echo LIBBARRETENBERG=$LIBBARRETENBERG
+          echo LIBBARRETENBERG=${pkgs.barretenberg}
         '';
       });
     });

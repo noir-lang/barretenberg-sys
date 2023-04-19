@@ -48,6 +48,32 @@ pub unsafe fn init_verification_key(
     )
 }
 
+pub unsafe fn serialize_verification_key_into_field_elements(
+    g2_ptr: &[u8],
+    vk_buf: &[u8],
+    serialized_vk_buf: *mut *mut u8,
+    serialized_vk_hash_buf: *mut *mut u8,
+) -> usize {
+    acir_serialize_verification_key_into_field_elements(
+        g2_ptr.as_ptr() as *const u8, 
+        vk_buf.as_ptr() as *const u8, 
+        serialized_vk_buf as *const *mut u8 as *mut *mut u8, 
+        serialized_vk_hash_buf as *const *mut u8 as *mut *mut u8,
+    )
+}
+
+pub unsafe fn serialize_proof_into_field_elements(
+    proof: &[u8],
+    serialized_proof_data_buf : *mut *mut u8,
+    proof_data_length: usize,
+) -> usize {
+    acir_serialize_proof_into_field_elements(
+        proof.as_ptr() as *const u8, 
+        serialized_proof_data_buf, 
+        proof_data_length
+    )
+}
+
 /// # Safety
 /// pippenger must point to a valid Pippenger object
 pub unsafe fn create_proof_with_pk(

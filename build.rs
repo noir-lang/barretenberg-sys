@@ -92,6 +92,8 @@ fn main() -> Result<()> {
         .allowlist_function("acir_proofs_get_total_circuit_size")
         .allowlist_function("acir_proofs_init_proving_key")
         .allowlist_function("acir_proofs_init_verification_key")
+        .allowlist_function("acir_serialize_verification_key_into_field_elements")
+        .allowlist_function("acir_serialize_proof_into_field_elements")
         .allowlist_function("acir_proofs_new_proof")
         .allowlist_function("acir_proofs_verify_proof")
         .allowlist_function("pedersen_plookup_compress_fields")

@@ -47,6 +47,8 @@ fn select_os() -> OS {
 // }
 
 fn main() -> Result<()> {
+    println!("cargo:rerun-if-changed=build.rs");
+
     // Register a eyre hook to display more readable failure messages to end-users
     let (_, eyre_hook) = HookBuilder::default()
         .display_env_section(false)

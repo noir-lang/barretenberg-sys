@@ -161,6 +161,7 @@
           git
           nil
           nixpkgs-fmt
+          llvmPackages.lldb # This ensures the right lldb is in the environment for running rust-lldb
         ];
 
         shellHook = ''

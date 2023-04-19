@@ -92,6 +92,7 @@
 
         src = craneLib.cleanCargoSource ./.;
 
+
         # Running checks don't do much more than compiling itself and increase
         # the build time by a lot, so we disable them throughout all our flakes
         doCheck = false;
@@ -152,6 +153,8 @@
       devShells.default = pkgs.mkShell (environment // {
         inputsFrom = builtins.attrValues checks;
 
+        LIBBARRETENBERG = pkgs.barretenberg;
+
         nativeBuildInputs = with pkgs; [
           which
           starship
@@ -162,6 +165,7 @@
 
         shellHook = ''
           eval "$(starship init bash)"
+          echo LIBBARRETENBERG=$LIBBARRETENBERG
         '';
       });
     });

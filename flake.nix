@@ -80,18 +80,20 @@
         RUST_TEST_THREADS = "1";
       };
 
+      # As per https://discourse.nixos.org/t/gcc11stdenv-and-clang/17734/7 since it seems that aarch64-linux uses
+      # gcc9 instead of gcc11 for the C++ stdlib, while all other targets we support provide the correct libstdc++
+      stdenv =
+        if (pkgs.stdenv.targetPlatform.isGnu && pkgs.stdenv.targetPlatform.isAarch64) then
+          pkgs.overrideCC pkgs.llvmPackages.stdenv (pkgs.llvmPackages.clang.override { gccForLibs = pkgs.gcc11.cc; })
+        else
+          pkgs.llvmPackages.stdenv;
+
       # Combine the environment and other configuration needed for crane to build our Rust packages
       commonArgs = environment // {
-        # As per https://discourse.nixos.org/t/gcc11stdenv-and-clang/17734/7 since it seems that aarch64-linux uses
-        # gcc9 instead of gcc11 for the C++ stdlib, while all other targets we support provide the correct libstdc++
-        stdenv = with pkgs;
-          if (stdenv.targetPlatform.isGnu && stdenv.targetPlatform.isAarch64) then
-            overrideCC llvmPackages.stdenv (llvmPackages.clang.override { gccForLibs = gcc11.cc; })
-          else
-            llvmPackages.stdenv;
+        # Use our custom stdenv to build and test our Rust project
+        inherit stdenv;
 
         src = craneLib.cleanCargoSource ./.;
-
 
         # Running checks don't do much more than compiling itself and increase
         # the build time by a lot, so we disable them throughout all our flakes
@@ -148,9 +150,10 @@
 
       packages.default = barretenberg-sys;
 
-      # Combine the environment settings with the inputs from our checks
-      # derivations and extra tooling via `nativeBuildInputs`
-      devShells.default = pkgs.mkShell (environment // {
+      # Setup the environment to match the stdenv from `nix build` & `nix flake check`, and
+      # combine it with the environment settings, the inputs from our checks derivations,
+      # and extra tooling via `nativeBuildInputs`
+      devShells.default = pkgs.mkShell.override { inherit stdenv; } (environment // {
         inputsFrom = builtins.attrValues checks;
 
         nativeBuildInputs = with pkgs; [

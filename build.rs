@@ -21,24 +21,6 @@ enum BuildError {
     BindgenWrite(String),
 }
 
-// These are the operating systems that are supported
-enum OS {
-    Linux,
-    Apple,
-}
-
-fn select_os() -> OS {
-    match env::consts::OS {
-        "linux" => OS::Linux,
-        "macos" => OS::Apple,
-        "windows" => unimplemented!("windows is not supported"),
-        _ => {
-            // For other OS's we default to linux
-            OS::Linux
-        }
-    }
-}
-
 // Useful for printing debugging messages during the build
 // macro_rules! p {
 //     ($($tokens: tt)*) => {
@@ -70,9 +52,7 @@ fn main() -> Result<()> {
             err => BuildError::PkgConfigGeneric(format!("{err}")),
         })?;
 
-    let os = select_os();
-
-    link_lib_omp(&os);
+    link_lib_omp();
 
     // Generate bindings from a header file and place them in a bindings.rs file
     let bindings = bindgen::Builder::default()
@@ -120,50 +100,12 @@ fn main() -> Result<()> {
         .map_err(|_| BuildError::BindgenWrite(bindgen_file.to_string_lossy().to_string()).into())
 }
 
-fn link_lib_omp(os: &OS) {
-    // We are using clang, so we need to tell the linker where to search for lomp
-    match os {
-        OS::Linux => {
-            if let Some(search_paths) = find_linux_search_paths() {
-                for path in search_paths {
-                    println!("cargo:rustc-link-search={}", path.display());
-                }
-            }
-        }
-        OS::Apple => {
-            if let Some(brew_prefix) = find_brew_prefix() {
-                println!("cargo:rustc-link-search={brew_prefix}/opt/libomp/lib");
-            }
-        }
+fn link_lib_omp() {
+    // If we are using clang from brew, so we need to tell the linker where to search for libomp
+    if let Some(brew_prefix) = find_brew_prefix() {
+        println!("cargo:rustc-link-search={brew_prefix}/opt/libomp/lib");
     }
     println!("cargo:rustc-link-lib=omp");
-}
-
-fn find_linux_search_paths() -> Option<Vec<PathBuf>> {
-    // Based on https://gitlab.com/kornelski/openmp-rs/-/blob/a922ab9073a95fb5161a38f13f5c12d37d1f1811/build.rs#L39-78
-    let comp = cc::Build::new()
-        .flag("-v")
-        .flag("-print-search-dirs")
-        .get_compiler();
-    let mut cmd = comp.to_command();
-    match cmd.output() {
-        Ok(out) => match String::from_utf8(out.stdout) {
-            Ok(stdout) => {
-                let mut search_paths = Vec::new();
-                for line in stdout
-                    .trim()
-                    .to_string()
-                    .split('\n')
-                    .filter_map(|l| l.strip_prefix("libraries: ="))
-                {
-                    search_paths.extend(env::split_paths(line));
-                }
-                Some(search_paths)
-            }
-            Err(_) => None,
-        },
-        Err(_) => None,
-    }
 }
 
 fn find_brew_prefix() -> Option<String> {

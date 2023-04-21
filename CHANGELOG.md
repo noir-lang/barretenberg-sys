@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/noir-lang/barretenberg-sys/compare/v0.1.2...v0.1.3) (2023-04-21)
+
+
+### Bug Fixes
+
+* Update barretenberg to version with mutex on pedersen generators ([#21](https://github.com/noir-lang/barretenberg-sys/issues/21)) ([0a0d04b](https://github.com/noir-lang/barretenberg-sys/commit/0a0d04ba3cc3761e14e64947fd97c3f44b9e3969))
+
 ## [0.1.2](https://github.com/noir-lang/barretenberg-sys/compare/v0.1.1...v0.1.2) (2023-04-21)
 
 

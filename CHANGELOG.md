@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2](https://github.com/noir-lang/barretenberg-sys/compare/v0.1.1...v0.1.2) (2023-04-21)
+
+
+### Bug Fixes
+
+* **bindgen:** Always include paths found by pkg-config ([#17](https://github.com/noir-lang/barretenberg-sys/issues/17)) ([cde2205](https://github.com/noir-lang/barretenberg-sys/commit/cde2205304c8654aff5a7741de26d14dc9ee886f))
+* **linux:** Remove unnecessary link search path modification ([#19](https://github.com/noir-lang/barretenberg-sys/issues/19)) ([da322a3](https://github.com/noir-lang/barretenberg-sys/commit/da322a39798067008e500f1a7f7452bbfb123842))
+
 ## [0.1.1](https://github.com/noir-lang/barretenberg-sys/compare/v0.1.0...v0.1.1) (2023-04-12)
 
 

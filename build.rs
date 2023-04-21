@@ -37,7 +37,7 @@ fn main() -> Result<()> {
         .into_hooks();
     eyre_hook.install()?;
 
-    pkg_config::Config::new()
+    let lib = pkg_config::Config::new()
         .range_version("0.1.0".."0.2.0")
         .probe("barretenberg")
         .map_err(|err| match err {
@@ -54,10 +54,16 @@ fn main() -> Result<()> {
 
     link_lib_omp();
 
+    let include_args = lib
+        .include_paths
+        .iter()
+        .map(|include| format!("-I{}", include.to_string_lossy()));
+
     // Generate bindings from a header file and place them in a bindings.rs file
     let bindings = bindgen::Builder::default()
         // Clang args so that we can compile C++ with C++20
         .clang_args(&["-std=gnu++20", "-xc++"])
+        .clang_args(include_args)
         .header_contents(
             "wrapper.hpp",
             r#"

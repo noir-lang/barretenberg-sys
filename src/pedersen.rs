@@ -1,9 +1,6 @@
 use crate::*;
 use std::convert::TryInto;
-// TODO: Behaviour has changed since the old barretenberg
-// TODO: so test vectors wont work.
-//
-// TODO: We should check what we need
+
 pub fn compress_native(left: &[u8; 32], right: &[u8; 32]) -> [u8; 32] {
     // unsafe { pedersen__init() };
     let mut result = [0_u8; 32];

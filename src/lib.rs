@@ -13,6 +13,7 @@ pub mod composer;
 pub mod pedersen;
 pub mod pippenger;
 pub mod schnorr;
+pub mod recursion;
 
 #[cfg(test)]
 mod tests {

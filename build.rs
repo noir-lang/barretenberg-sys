@@ -84,6 +84,7 @@ fn main() -> Result<()> {
         .allowlist_function("acir_serialize_proof_into_field_elements")
         .allowlist_function("acir_proofs_new_proof")
         .allowlist_function("acir_proofs_verify_proof")
+        .allowlist_function("acir_proofs_verify_recursive_proof")
         .allowlist_function("pedersen_plookup_compress_fields")
         .allowlist_function("pedersen_plookup_compress")
         .allowlist_function("pedersen_plookup_commit")

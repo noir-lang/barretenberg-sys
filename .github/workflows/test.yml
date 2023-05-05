@@ -30,6 +30,10 @@ jobs:
           nix_path: nixpkgs=channel:nixos-22.11
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: cachix/cachix-action@v12
+        with:
+          name: barretenberg
+
       - name: Run `nix flake check`
         run: |
           nix flake check -L
@@ -50,7 +54,7 @@ jobs:
         with:
           repository: AztecProtocol/barretenberg
           path: barretenberg
-          ref: ecb61292c96c3b1fc673bcd96920cd2f00fe28b9
+          ref: 87aeb375d7b434e0faf47abb79f97753ab760987
 
       - name: Setup Linux environment
         if: matrix.os == 'ubuntu-latest'

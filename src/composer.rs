@@ -66,11 +66,13 @@ pub unsafe fn serialize_proof_into_field_elements(
     proof: &[u8],
     serialized_proof_data_buf: *mut *mut u8,
     proof_data_length: usize,
+    num_public_inputs: usize,
 ) -> usize {
     acir_serialize_proof_into_field_elements(
         proof.as_ptr() as *const u8,
         serialized_proof_data_buf,
         proof_data_length,
+        num_public_inputs,
     )
 }
 

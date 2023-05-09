@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   nix:
-    name: Nix build & test (${{ matrix.os }})
+    name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -34,16 +34,12 @@ jobs:
         with:
           name: barretenberg
 
-      - name: Cargo clippy
+      - name: Run `nix flake check`
         run: |
-          nix build -L .#checks.${{ matrix.target }}.cargo-clippy
-
-      - name: Cargo test
-        run: |
-          nix build -L .#checks.${{ matrix.target }}.cargo-test
+          nix flake check -L
 
   native:
-    name: Native build & test (${{ matrix.os }})
+    name: Test on ${{ matrix.os }} with global bb
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

@@ -32,7 +32,7 @@ pub fn compress_many(inputs: &[[u8; 32]]) -> [u8; 32] {
     result
 }
 
-pub fn encrypt(inputs_buffer: &[[u8; 32]]) -> ([u8; 32], [u8; 32]) {
+pub fn encrypt(inputs_buffer: &[[u8; 32]], hash_index: u32) -> ([u8; 32], [u8; 32]) {
     let mut buffer = Vec::new();
     let buffer_len = inputs_buffer.len() as u32;
     let mut result = [0_u8; 64];
@@ -42,7 +42,11 @@ pub fn encrypt(inputs_buffer: &[[u8; 32]]) -> ([u8; 32], [u8; 32]) {
     }
 
     unsafe {
-        pedersen_plookup_commit(buffer.as_ptr() as *const u8, result.as_mut_ptr());
+        pedersen_plookup_commit_with_hash_index(
+            buffer.as_ptr() as *const u8,
+            result.as_mut_ptr(),
+            hash_index,
+        );
     }
     let s: [u8; 32] = (result[0..32]).try_into().unwrap();
     let e: [u8; 32] = (result[32..64]).try_into().unwrap();
@@ -99,7 +103,7 @@ mod tests {
         f_one[31] = 1;
         let inputs: Vec<[u8; 32]> = vec![f_zero, f_one];
 
-        let (x, y) = encrypt(&inputs);
+        let (x, y) = encrypt(&inputs, 0);
         let expected_x = "11831f49876c313f2a9ec6d8d521c7ce0b6311c852117e340bfe27fd1ac096ef";
         let expected_y = "0ecf9d98be4597a88c46a7e0fa8836b57a7dcb41ee30f8d8787b11cc259c83fa";
         assert_eq!(expected_x, hex::encode(x));

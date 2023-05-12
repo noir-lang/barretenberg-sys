@@ -84,7 +84,7 @@ fn main() -> Result<()> {
         .allowlist_function("acir_proofs_verify_proof")
         .allowlist_function("pedersen_plookup_compress_fields")
         .allowlist_function("pedersen_plookup_compress")
-        .allowlist_function("pedersen_plookup_commit")
+        .allowlist_function("pedersen_plookup_commit_with_hash_index")
         .allowlist_function("new_pippenger")
         .allowlist_function("compute_public_key")
         .allowlist_function("construct_signature")

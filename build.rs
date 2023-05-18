@@ -54,8 +54,6 @@ fn main() -> Result<()> {
     // println!("cargo:rustc-link-lib=static=crt1-command");
     println!("cargo:rustc-link-lib=static=barretenberg-wasm");
 
-    cc::Build::new().archiver("llvm-ar").cpp_link_stdlib(None);
-
     // let lib = pkg_config::Config::new()
     //     .range_version("0.1.0".."0.2.0")
     //     // .probe("barretenberg")

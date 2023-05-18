@@ -37,26 +37,26 @@
       };
     };
 
-    barretenberg = {
-      url = "github:AztecProtocol/barretenberg";
-      # All of these inputs (a.k.a. dependencies) need to align with inputs we
-      # use so they use the `inputs.*.follows` syntax to reference our inputs
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-      };
-    };
+    # barretenberg = {
+    #   url = "github:AztecProtocol/barretenberg";
+    #   # All of these inputs (a.k.a. dependencies) need to align with inputs we
+    #   # use so they use the `inputs.*.follows` syntax to reference our inputs
+    #   inputs = {
+    #     nixpkgs.follows = "nixpkgs";
+    #     flake-utils.follows = "flake-utils";
+    #   };
+    # };
   };
 
   outputs =
-    { self, nixpkgs, crane, flake-utils, rust-overlay, barretenberg, ... }:
+    { self, nixpkgs, crane, flake-utils, rust-overlay, ... }:
     flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
           rust-overlay.overlays.default
-          barretenberg.overlays.default
+          # barretenberg.overlays.default
         ];
       };
 
@@ -101,7 +101,7 @@
 
         buildInputs = [
           pkgs.llvmPackages.openmp
-          pkgs.barretenberg
+          # pkgs.barretenberg
         ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
           # Need libiconv on Darwin. See https://github.com/ipetkov/crane/issues/156
           pkgs.libiconv
@@ -141,7 +141,7 @@
         });
       };
 
-      packages.default = barretenberg-sys;
+      # packages.default = barretenberg-sys;
 
       # Setup the environment to match the stdenv from `nix build` & `nix flake check`, and
       # combine it with the environment settings, the inputs from our checks derivations,
@@ -158,10 +158,10 @@
           llvmPackages.lldb # This ensures the right lldb is in the environment for running rust-lldb
         ];
 
-        shellHook = ''
-          eval "$(starship init bash)"
-          echo LIBBARRETENBERG=${pkgs.barretenberg}
-        '';
+        # shellHook = ''
+        #   eval "$(starship init bash)"
+        #   echo LIBBARRETENBERG=${pkgs.barretenberg}
+        # '';
       });
     });
 }

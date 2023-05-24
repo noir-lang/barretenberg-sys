@@ -1,5 +1,10 @@
 use crate::*;
 
+/// # Safety
+/// vk_fields_ptr and proof_fields must point to a valid recursion format structure
+/// laid out in the acir format recursion constraint
+/// input_aggregation_obj_ptr must point to a valid aggregation object whose
+/// structure is also laid out in the acir format recursion constraint  
 pub unsafe fn verify_proof(
     vk_fields_ptr: &[u8],
     proof_fields: &[u8],

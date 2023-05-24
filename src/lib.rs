@@ -12,8 +12,8 @@ pub mod blake2s;
 pub mod composer;
 pub mod pedersen;
 pub mod pippenger;
-pub mod schnorr;
 pub mod recursion;
+pub mod schnorr;
 
 #[cfg(test)]
 mod tests {

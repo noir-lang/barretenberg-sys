@@ -22,7 +22,7 @@ to install everything globally, you'll need:
 
     Linker provided by Clang, but might need to be installed via `apt install lld`.
 
-4. `barretenberg` (preferably at commit `87aeb375d7b434e0faf47abb79f97753ab760987`)
+4. `barretenberg` (preferably at commit `209667624f706be9106acab2cc0f7bfbdc7fa793`)
 
     Needs to be built and installed following the instructions [in the README](https://github.com/AztecProtocol/barretenberg#getting-started). Note that barretenberg has its own [dependencies](https://github.com/AztecProtocol/barretenberg#dependencies) that will need to be installed, such as `cmake` and `ninja`.
 

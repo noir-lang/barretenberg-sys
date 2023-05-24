@@ -12,6 +12,7 @@ pub mod blake2s;
 pub mod composer;
 pub mod pedersen;
 pub mod pippenger;
+pub mod recursion;
 pub mod schnorr;
 
 #[cfg(test)]
@@ -28,7 +29,7 @@ mod tests {
         f_one[31] = 1;
         let got = pedersen::compress_native(&f_zero, &f_one);
         assert_eq!(
-            "11831f49876c313f2a9ec6d8d521c7ce0b6311c852117e340bfe27fd1ac096ef",
+            "0c5e1ddecd49de44ed5e5798d3f6fb7c71fe3d37f5bee8664cf88a445b5ba0af",
             hex::encode(got)
         );
     }

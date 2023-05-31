@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   nix:
-    name: Nix build & test (${{ matrix.os }})
+    name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -30,16 +30,16 @@ jobs:
           nix_path: nixpkgs=channel:nixos-22.11
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cargo clippy
-        run: |
-          nix build -L .#checks.${{ matrix.target }}.cargo-clippy
+      - uses: cachix/cachix-action@v12
+        with:
+          name: barretenberg
 
-      - name: Cargo test
+      - name: Run `nix flake check`
         run: |
-          nix build -L .#checks.${{ matrix.target }}.cargo-test
+          nix flake check -L
 
   native:
-    name: Native build & test (${{ matrix.os }})
+    name: Test on ${{ matrix.os }} with global bb
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -54,7 +54,7 @@ jobs:
         with:
           repository: AztecProtocol/barretenberg
           path: barretenberg
-          ref: ecb61292c96c3b1fc673bcd96920cd2f00fe28b9
+          ref: 87aeb375d7b434e0faf47abb79f97753ab760987
 
       - name: Setup Linux environment
         if: matrix.os == 'ubuntu-latest'

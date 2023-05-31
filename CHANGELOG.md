@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0](https://github.com/noir-lang/barretenberg-sys/compare/v0.1.3...v0.2.0) (2023-05-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* update bindings for pedersen with hash_index ([#28](https://github.com/noir-lang/barretenberg-sys/issues/28))
+
+### Features
+
+* update bindings for pedersen with hash_index ([#28](https://github.com/noir-lang/barretenberg-sys/issues/28)) ([c04e3f4](https://github.com/noir-lang/barretenberg-sys/commit/c04e3f46e87c95a364c476bf8f0d310e994c5597))
+
 ## [0.1.3](https://github.com/noir-lang/barretenberg-sys/compare/v0.1.2...v0.1.3) (2023-04-21)
 
 

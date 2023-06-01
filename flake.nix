@@ -114,7 +114,7 @@
       barretenberg-sys = craneLib.buildPackage (commonArgs // {
         pname = "barretenberg-sys";
         # x-release-please-start-version
-        version = "0.1.3";
+        version = "0.2.0";
         # x-release-please-end
 
         inherit cargoArtifacts;
